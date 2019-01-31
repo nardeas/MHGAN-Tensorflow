@@ -76,7 +76,7 @@ if __name__ == '__main__':
         Generator(input_shape=noise_dimensions, output_shape=real_dimensions),
         Discriminator()
     )
-    gan.test_accumulate = create_accumulator(
+    gan.train_accumulate = create_accumulator(
         sess=sess,
         output_path='output/summaries/wgan'
     )
