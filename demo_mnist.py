@@ -22,7 +22,7 @@ def create_images_from_generated(images, dimensions=(10, 10), epoch='latest'):
         plt.imshow(images[i], interpolation='nearest', cmap='gray_r')
         plt.axis('off')
     plt.tight_layout()
-    plt.savefig('g_output-e{}.png'.format(epoch))
+    plt.savefig('output/generated-e{}.png'.format(epoch))
 
 def create_accumulator():
     def train_accumulator(epoch, state):
