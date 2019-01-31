@@ -25,7 +25,7 @@ class WGAN:
         self.D = self.discriminator(self.x, reuse_vars=False)
         self.Dg = self.discriminator(self.G, reuse_vars=True)
 
-        self.G_loss = tf.reduce_mean(self.Dg)
+        self.G_loss = tf.reduce_mean(-self.Dg)
         self.D_loss = tf.reduce_mean(self.Dg - self.D) + self.gradient_penalty(L=L)
 
         with tf.control_dependencies(tf.get_collection(tf.GraphKeys.UPDATE_OPS)):
@@ -81,7 +81,7 @@ class WGAN:
         self.sess = sess
         self.sess.run(tf.global_variables_initializer())
         self.losses = []
-        for epoch in range(n_epochs):
+        for epoch in range(1, n_epochs+1):
             try:
 
                 # Train the discriminator for N iterations
