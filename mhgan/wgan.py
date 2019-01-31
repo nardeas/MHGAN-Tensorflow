@@ -109,7 +109,7 @@ class WGAN:
 
                 # OPTIONAL:
                 # Accumulate state for plotting loss or analyzing samples from G
-                if epoch % n_accumulate == 0:
+                if epoch == 1 or epoch % n_accumulate == 0:
                     try:
                         self.train_accumulate and self.train_accumulate(
                             epoch=epoch,
