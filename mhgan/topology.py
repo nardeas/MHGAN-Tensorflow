@@ -65,7 +65,7 @@ class Generator(object):
     Standard DCGAN generator with GELU activation. We use a tanh based GELU
     approximation which is more accurate but slightly slower.
     '''
-    def __init__(self, input_shape, output_shape, batch_norm=False, name='GAN/generator'):
+    def __init__(self, input_shape, output_shape, batch_norm=True, name='GAN/generator'):
         self.input_shape = np.asarray(input_shape)
         self.output_shape = np.asarray(output_shape)
         self.batch_norm = batch_norm
