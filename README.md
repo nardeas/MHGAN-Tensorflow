@@ -1,5 +1,7 @@
 # Metropolis-Hastings GAN (MHGAN)
 
+[![HitCount](http://hits.dwyl.io/nardeas/MHGAN.svg)](http://hits.dwyl.io/nardeas/MHGAN)
+
 MHGAN implemented in Tensorflow (mostly) as described in the original paper:
 
 https://arxiv.org/pdf/1811.11357.pdf
@@ -20,23 +22,20 @@ The `mhgan.py` module provides a wrapper for a trained generator/discriminator p
 
 **Training metrics:**
 
-<img src="/media/g_loss.png" height="150" />
-<img src="/media/d_loss.png" height="150" />
+Generator | Discriminator
+:-------------------------:|:-------------------------:
+<img src="/media/g_loss.png" height="300" /> | <img src="/media/d_loss.png" height="300" />
+<img src="/media/g_loss_dist.png" height="150" /> | <img src="/media/d_loss_dist.png" height="150" />
 
-<img src="/media/g_loss_dist.png" height="150" />
-<img src="/media/d_loss_dist.png" height="150" />
+**After 1500 epochs**
+
+Basic sample | Enhanced sample (k=1000)
+:-------------------------:|:-------------------------:
+![Sample](/media/sample.png?raw=true "Basic sample") | ![MH-Sample](/media/mh_sample.png?raw=true "MH sample")
 
 **Convergence on MNIST subset:**
 
  <img src="/media/gan.gif" width="300" />
-
-**Basic sample after 1500 epochs:**
-
-![Sample](/media/sample.png?raw=true "Basic sample")
-
-**Enhanced sample after 1500 epochs:**
-
-![MH-Sample](/media/mh_sample.png?raw=true "MH sample")
 
 ## Notes
 
