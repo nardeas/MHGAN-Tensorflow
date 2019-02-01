@@ -12,7 +12,8 @@ class Discriminator(object):
     with sigmoidal activation functions (since we're using sigmoid based GELU
     approximation).
     '''
-    def __init__(self, name='GAN/discriminator'):
+    def __init__(self, batch_norm=False, name='GAN/discriminator'):
+        self.batch_norm = batch_norm
         self.name = name
 
     def __call__(self, x, reuse_vars=True):
@@ -25,6 +26,8 @@ class Discriminator(object):
                 weights_initializer=tcl.xavier_initializer(uniform=False),
                 activation_fn=tf.identity
             )
+            if self.batch_norm:
+                conv1 = tcl.batch_norm(conv1)
             conv1 = gelu(conv1)
 
             conv2 = tcl.conv2d(
@@ -32,6 +35,8 @@ class Discriminator(object):
                 weights_initializer=tcl.xavier_initializer(uniform=False),
                 activation_fn=tf.identity
             )
+            if self.batch_norm:
+                conv2 = tcl.batch_norm(conv2)
             conv2 = gelu(conv2)
             conv2 = tcl.flatten(conv2)
 
@@ -60,9 +65,10 @@ class Generator(object):
     Standard DCGAN generator with GELU activation. We use a tanh based GELU
     approximation which is more accurate but slightly slower.
     '''
-    def __init__(self, input_shape, output_shape, name='GAN/generator'):
+    def __init__(self, input_shape, output_shape, batch_norm=False, name='GAN/generator'):
         self.input_shape = np.asarray(input_shape)
         self.output_shape = np.asarray(output_shape)
+        self.batch_norm = batch_norm
         self.name = name
 
         assert len(self.output_shape) == 3, 'output shape must have 3 dimensions'
@@ -79,7 +85,8 @@ class Generator(object):
                 weights_regularizer=tcl.l2_regularizer(2.5e-5),
                 activation_fn=tf.identity
             )
-            fc1 = tcl.batch_norm(fc1)
+            if self.batch_norm:
+                fc1 = tcl.batch_norm(fc1)
             fc1 = gelu2(fc1)
 
             fc2 = tcl.fully_connected(
@@ -94,7 +101,8 @@ class Generator(object):
                 *(self.output_shape[:2] // 4),
                 128
             ]))
-            fc2 = tcl.batch_norm(fc2)
+            if self.batch_norm:
+                fc2 = tcl.batch_norm(fc2)
             fc2 = gelu2(fc2)
 
             conv1 = tcl.conv2d_transpose(
@@ -103,7 +111,8 @@ class Generator(object):
                 weights_regularizer=tcl.l2_regularizer(2.5e-5),
                 activation_fn=tf.identity
             )
-            conv1 = tcl.batch_norm(conv1)
+            if self.batch_norm:
+                conv1 = tcl.batch_norm(conv1)
             conv1 = gelu2(conv1)
 
             conv2 = tcl.conv2d_transpose(
