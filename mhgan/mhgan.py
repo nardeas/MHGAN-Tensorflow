@@ -1,6 +1,8 @@
 import tensorflow as tf
 import numpy as np
 
+np.seterr(divide='ignore', invalid='ignore')
+
 class MHGAN:
     '''
     Wraps your trained WGAN with generator and discriminator for enhanced
@@ -71,7 +73,10 @@ class MHGAN:
         for i in range(count):
             x = 0
             for x_next in range(k):
-                alpha = np.fmin(1., (1./scores[i][x] - 1.) / (1./scores[i][x_next] - 1.))
+                Pd1 = scores[i][x]
+                Pd2 = scores[i][x_next]
+                alpha = np.fmin(1., np.true_divide((1./Pd1 - 1.), (1./Pd2 - 1.)))
+                # Will ignore NaNs
                 if epsilon[i][x_next] <= alpha:
                     x = x_next
                 # Avoid samples from calibration distribution
