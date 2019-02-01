@@ -101,7 +101,8 @@ def create_train_helper(
         # losses
 
         # Predefined noise vector for comparison
-        noise = train_helper.noise or noise_sampler(sample_count)
+        if train_helper.noise is None:
+            train_helper.noise = noise_sampler(sample_count)
 
         # Generate some samples and save as images
         if epoch == 1 or epoch % sample_nth == 0:
@@ -112,10 +113,14 @@ def create_train_helper(
                 save=sample_save,
                 dimensions=(grid_size, grid_size),
                 samples=sess.run(generator_output, feed_dict={
-                    generator_input: noise
+                    generator_input: train_helper.noise
                 })
             )
         add_summary(epoch, losses)
-        print('epoch {} losses => generator={:.6f}, discriminator={:.6f}'.format(epoch, losses.T[0][-1], losses.T[1][-1]))
+        print('Training: epoch {} losses => generator={:.6f}, discriminator={:.6f}'.format(
+            epoch,
+            losses.T[0][-1],
+            losses.T[1][-1]
+        ))
     train_helper.noise = None
     return train_helper
