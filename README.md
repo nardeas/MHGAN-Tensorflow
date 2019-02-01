@@ -8,7 +8,7 @@ https://arxiv.org/pdf/1811.11357.pdf
 
 ## Overview
 
-The base network is a WGAN with DCGAN generator and discriminator. As opposed to the standard DCGAN we are using GELU activation as this is shown to generally improve performance:
+The base network is a WGAN with DCGAN generator and discriminator. As opposed to the standard LeakyReLU activation we are using GELU as this is shown to generally improve performance:
 
 https://arxiv.org/pdf/1606.08415.pdf
 
@@ -16,16 +16,16 @@ Metropolis-Hastings GAN refers to the functionality of improving trained GANs by
 
 Thus, even if the generator doesn't converge optimally, we can use the discriminator to draw enhanced samples from the network.
 
-The `mhgan.py` module provides a wrapper for a trained generator/discriminator pair with utility methods to draw better samples. The chain is calibrated using a score from real data as starting point to avoid burn-in periods.
+The `mhgan.py` module provides a wrapper for a trained generator/discriminator pair with utility methods to draw better samples. The chain is calibrated using a score from real data as starting point to avoid the need of burn-in periods.
 
-## Experiments
-
-**Training metrics:**
+## Training
 
 Generator | Discriminator
 :-------------------------:|:-------------------------:
 <img src="/media/g_loss.png" height="300" /> | <img src="/media/d_loss.png" height="300" />
 <img src="/media/g_loss_dist.png" height="150" /> | <img src="/media/d_loss_dist.png" height="150" />
+
+## Examples
 
 **After 1500 epochs**
 
