@@ -5,10 +5,10 @@ import numpy as np
 
 class WGAN:
 
-    def __init__(self, generator, discriminator, train_accumulate=None, L=10.):
+    def __init__(self, generator, discriminator, train_helper=None, L=10.):
         self.generator = generator
         self.discriminator = discriminator
-        self.train_accumulate = train_accumulate
+        self.train_helper = train_helper
 
         self.z = tf.placeholder(
             tf.float32,
@@ -107,15 +107,15 @@ class WGAN:
 
                 self.losses.append([ g_loss, d_loss ])
 
-                # OPTIONAL:
-                # Accumulate state for plotting loss or analyzing samples from G
+                # Optional: accumulate state for plotting loss or analyzing samples from G
                 if epoch == 1 or epoch % n_accumulate == 0:
                     try:
-                        self.train_accumulate and self.train_accumulate(
+                        self.train_helper and self.train_helper(
                             epoch=epoch,
                             state=(self.sess, np.asarray(self.losses), [
                                 self.z,
                                 self.G,
+                                # Return noise sampler helper for analysis
                                 lambda size: noise_sampler(shape=[
                                     size,
                                     *self.generator.input_shape
